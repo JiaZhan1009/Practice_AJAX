@@ -1,0 +1,60 @@
+﻿<button class="btn btn-primary" onclick="jQuerygetGreetSync()">jQuerygetGreetSync</button>
+<button class="btn btn-primary" onclick="jQuerygetGreetAsync()">jQuerygetGreetAsync</button>
+<button class="btn btn-primary" onclick="jQueryPostGreetAsnc()">jQueryPostGreetAsnc</button>
+<img id="progress" src="~/images/skateboarding.gif" style="display:none" />
+<div id="result"></div>
+
+
+@section Scripts
+    {
+    <script>
+        function jQuerygetGreetSync() {
+            //alert("getGreetSync");
+            var p = encodeURI("Name=陳小明");
+            $("#progress").show();
+            $.ajax({
+                type:"GET",
+                url: "https://localhost:7010/Ajax/Greet?" + p,
+                async:false
+            }).done(function (data) {
+                $("#result").text(data);
+                $("#progress").hide();
+            }).fail(function(err){
+                alert(err.statysText);
+            })
+        }
+        function jQuerygetGreetAsync() {
+            //alert("getGreetAsync");
+            var p = encodeURI("Name=張小明");
+            $("#progress").show();
+            $.ajax({
+                type: "GET",
+                url: "https://localhost:7010/Ajax/Greet?" + p,
+            }).done(function (data) {
+                $("#result").text(data);
+                $("#progress").hide();
+            }).fail(function (err) {
+                alert(err.statysText);
+            })
+        }
+        function jQueryPostGreetAsnc() {
+            //alert("PostGreetASync");
+            //var p = encodeURI("Name=張小明");
+            $("#progress").show();
+            $.ajax({
+                type: "GET",
+                url: "https://localhost:7010/Ajax/Greet",
+                data:{
+                    Name:"李小明"
+                }
+            }).done(function (data) {
+                $("#result").text(data);
+                $("#progress").hide();
+            }).fail(function (err) {
+                alert(err.statysText);
+            })
+        }
+
+
+    </script>
+}

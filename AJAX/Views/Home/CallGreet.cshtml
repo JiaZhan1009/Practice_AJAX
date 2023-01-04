@@ -1,0 +1,69 @@
+﻿<button class="btn btn-success" onclick="getGreetSync()">Call Greet(同步Get)</button>
+<button class="btn btn-success" onclick="getGreetAsync()">Call Greet(非同步Get)</button>
+<button class="btn btn-success" onclick="postGreetSync()">Call Greet(非同步Post)</button>
+<img src="~/images/skateboarding.gif" style="display:none" id="progress" />
+<br />
+<div id="result"></div>
+
+
+
+@section Scripts
+    {
+    <script>
+        function getGreetSync() {
+            //alert("getGreetSync");
+            var xmlHttp = new XMLHttpRequest();
+            if (xmlHttp != null) {
+                var p = encodeURI("Name=陳小明");    //encode是編碼
+                xmlHttp.open("Get", "https://localhost:7010/Ajax/Greet?" + p, false);//false是async參數，false時是Sync
+                document.getElementById("progress").style.display = "inline";
+                xmlHttp.send();
+                document.getElementById("result").innerHTML = decodeURI(xmlHttp.responseText);
+                //在這邊decode解碼
+                document.getElementById("progress").style.display = "none";
+            }
+            else { alert("無法執行Ajax呼叫!"); }
+        }
+        function getGreetAsync() {
+            //alert("getGreetAsync");
+            var xmlHttp = new XMLHttpRequest();
+            if (xmlHttp != null) {
+                var p = encodeURI("Name=李大華");
+                xmlHttp.open("Get", "https://localhost:7010/Ajax/Greet?" + p, true);
+                xmlHttp.onreadystatechange = function () {  //Ready狀態改變時
+                    if (xmlHttp.readyState == 4) {      //4是Ready狀態成功
+                        if (xmlHttp.status == 200) {    //400以下均是成功
+                            document.getElementById("result").innerHTML = decodeURI(xmlHttp.responseText);
+                            document.getElementById("progress").style.display = "none";
+                        }
+                    }
+                }
+                document.getElementById("progress").style.display = "inline";
+                xmlHttp.send();
+            }
+            else { alert("無法執行Ajax呼叫!"); }
+        }
+
+        function postGreetSync() {
+            //alert("getGreetAsync");
+            var xmlHttp = new XMLHttpRequest();
+            if (xmlHttp != null) {
+                //var p = encodeURI("Name=李大華");
+                xmlHttp.open("Post", "https://localhost:7010/Ajax/Greet", true);
+                xmlHttp.onreadystatechange = function () {  //Ready狀態改變時
+                    if (xmlHttp.readyState == 4) {      //4是Ready狀態成功
+                        if (xmlHttp.status == 200) {    //400以下均是成功
+                            document.getElementById("result").innerHTML = decodeURI(xmlHttp.responseText);
+                            document.getElementById("progress").style.display = "none";
+                        }
+                    }
+                }
+                // ==========
+                xmlHttp.setRequestHeader("content-type","application/x-www-form-urlencoded")
+                document.getElementById("progress").style.display = "inline";
+                xmlHttp.send("Name=郭大華");
+            }
+            else { alert("無法執行Ajax呼叫!"); }
+        }
+    </script>
+}

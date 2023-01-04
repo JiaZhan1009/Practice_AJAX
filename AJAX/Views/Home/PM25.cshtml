@@ -1,0 +1,59 @@
+﻿@section Styles{
+    <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" />
+    <style>
+        thead {
+            background-color: maroon;
+            color: white;
+        }
+
+        .pm25Table {
+        }
+    </style>
+}
+
+@*HTML 內容 ---> 使用 dataTable*@
+<table class="table " id="pm25Table">
+    <thead>
+        <tr>
+            <td>城鎮</td>
+            <td>PM2.5</td>
+            <td>溫度</td>
+            <td>時間</td>
+        </tr>
+    </thead>
+
+</table>
+
+
+
+@section Scripts{
+    <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#pm25Table").dataTable({
+                ajax: {
+                    type: "GET",
+                    url: "https://localhost:7010/taichung.json",
+                    // dataSrc 可再處理資料
+                    dataSrc: function (data) { return data; },
+                },
+                // 資料從 dataSrc return 過來
+                columns: [
+                    { "data": "town", "width": "25%" },
+                    { "data": "pm25", "width": "25%" },
+                    { "data": "temp", "width": "25%" },
+                    { "data": "time", "width": "25%" },
+                ],
+                fixedHeader: {
+                    header: true
+                },
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/zh-HANT.json'
+                }
+            });
+        });
+
+    </script>
+}
