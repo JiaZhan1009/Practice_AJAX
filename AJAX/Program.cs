@@ -14,7 +14,8 @@ var NorthwindConnectionString = builder.Configuration.GetConnectionString("North
 builder.Services.AddDbContext<NorthwindContext>(options =>
     options.UseSqlServer(NorthwindConnectionString));
 
-//builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();

@@ -1,59 +1,8 @@
-﻿@section Styles{
-    <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" />
-    <style>
-        thead {
-            background-color: maroon;
-            color: white;
-        }
-
-        .pm25Table {
-        }
-    </style>
+﻿@{
+    ViewData["Title"] = "Home Page";
 }
 
-@*HTML 內容 ---> 使用 dataTable*@
-<table class="table " id="pm25Table">
-    <thead>
-        <tr>
-            <td>EmployeeId</td>
-            <td>FirstName</td>
-            <td>LastName</td>
-            <td>Title</td>
-        </tr>
-    </thead>
-
-</table>
-
-
-
-@section Scripts{
-    <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
-    <script src="https://cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $("#pm25Table").dataTable({
-                ajax: {
-                    type: "GET",
-                    url: "https://localhost:7185/api/Employees",
-                    // dataSrc 可再處理資料
-                    dataSrc: function (data) { return data; },
-                },
-                // 資料從 dataSrc return 過來
-                columns: [
-                    { "data": "employeeId", "width": "25%" },
-                    { "data": "firstName", "width": "25%" },
-                    { "data": "lastName", "width": "25%" },
-                    { "data": "title", "width": "25%" },
-                ],
-                fixedHeader: {
-                    header: true
-                },
-                //languge: {
-
-                //},
-            });
-        });
-
-    </script>
-}
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>

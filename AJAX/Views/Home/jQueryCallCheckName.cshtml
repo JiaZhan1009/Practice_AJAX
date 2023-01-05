@@ -1,32 +1,5 @@
-﻿<label>檢查名稱</label>
-<input id="companyName" type="text" onkeyup="keyup()" />
-<span id="result"></span>
-<img id="progress" src="~/images/skateboarding.gif" style="display:none" />
-
-
-@section Scripts
-    {
-    <script>
-        function keyup() {
-            //alert("keyup");
-            $("#progress").show();
-            $.ajax({
-                type: "POST",
-                url: "https://localhost:7010/Ajax/CheckName",
-                data: {
-                    CompanyName: $("#companyName").val()
-                }
-            }).done(function (data) {
-                if (data == "true"){
-                    $("#result").text("公司名稱已登記!");
-                }else{
-                    $("#result").text("公司名稱未登記!");
-                }
-                $("#progress").hide();
-            }).fail(function (err) {
-                alert(err.statysText);
-            });
-        }
-        // Island Trading
-    </script>
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
 }

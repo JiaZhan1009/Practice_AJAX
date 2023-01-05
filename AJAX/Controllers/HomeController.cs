@@ -8,51 +8,37 @@ namespace AJAX.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-        }
-        public IActionResult Index2()
-        {
-            return View();
         }
 
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult CallGreet()
+
+        public IActionResult CallGreet() 
         {
             return View();
         }
+
         public IActionResult jQueryCallGreet()
         {
             return View();
         }
+
         public IActionResult CallCheckName()
         {
             return View();
         }
+
         public IActionResult jQueryCallCheckName()
         {
             return View();
         }
 
         public IActionResult CallEmployeeServices()
-        {
-            return View();
-        }
-
-        public IActionResult Pm25()
-        {
-            return View();
-        }
-        public IActionResult VUECRUD()
-        {
-            return View();
-        }
-        public IActionResult Privacy()
         {
             return View();
         }

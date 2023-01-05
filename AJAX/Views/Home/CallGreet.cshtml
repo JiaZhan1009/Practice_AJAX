@@ -1,10 +1,10 @@
 ﻿<button class="btn btn-success" onclick="getGreetSync()">Call Greet(同步Get)</button>
 <button class="btn btn-success" onclick="getGreetAsync()">Call Greet(非同步Get)</button>
 <button class="btn btn-success" onclick="postGreetSync()">Call Greet(非同步Post)</button>
-<img src="~/images/skateboarding.gif" style="display:none" id="progress" />
+<img src="~/loading-bar.gif" style="display:none" id="progress" />
 <br />
-<div id="result"></div>
 
+<div id="result"></div>
 
 
 @section Scripts
@@ -13,32 +13,43 @@
         function getGreetSync() {
             //alert("getGreetSync");
             var xmlHttp = new XMLHttpRequest();
+            // 判斷 New 有沒有成功, 如果是舊瀏覽器 New 會失敗
             if (xmlHttp != null) {
-                var p = encodeURI("Name=陳小明");    //encode是編碼
-                xmlHttp.open("Get", "https://localhost:7010/Ajax/Greet?" + p, false);//false是async參數，false時是Sync
+                // 通常資料要透過網際網路傳輸會先進行編碼再傳送, 如沒有編碼可能會變亂碼
+                var p = encodeURI("Name=陳小明");    // encode 是編碼
+                // false 代表同步 async, 執行完 responseText 會得到東西
+                xmlHttp.open("Get", "https://localhost:7156/Ajax/Greet?" + p, false);
                 document.getElementById("progress").style.display = "inline";
+                // 同步的方式就是 open 後底下接 send 直接得到結果
                 xmlHttp.send();
+                // 對 xmlHttp.responseText 進行解碼
                 document.getElementById("result").innerHTML = decodeURI(xmlHttp.responseText);
-                //在這邊decode解碼
+                // decode 是解碼
                 document.getElementById("progress").style.display = "none";
             }
             else { alert("無法執行Ajax呼叫!"); }
         }
+
         function getGreetAsync() {
             //alert("getGreetAsync");
             var xmlHttp = new XMLHttpRequest();
             if (xmlHttp != null) {
                 var p = encodeURI("Name=李大華");
-                xmlHttp.open("Get", "https://localhost:7010/Ajax/Greet?" + p, true);
+                // 改成 true 等於 Async
+                xmlHttp.open("Get", "https://localhost:7156/Ajax/Greet?" + p, true);
+                // 等待 Ready 狀態改變, 4 是收到所有資料代表成功
                 xmlHttp.onreadystatechange = function () {  //Ready狀態改變時
-                    if (xmlHttp.readyState == 4) {      //4是Ready狀態成功
-                        if (xmlHttp.status == 200) {    //400以下均是成功
+                    if (xmlHttp.readyState == 4) { //4是Ready狀態成功
+                        // 再判斷狀態是否等於 200
+                        if (xmlHttp.status == 200) { //400以下均是成功
+                            // 成功後接收結果
                             document.getElementById("result").innerHTML = decodeURI(xmlHttp.responseText);
                             document.getElementById("progress").style.display = "none";
                         }
                     }
                 }
                 document.getElementById("progress").style.display = "inline";
+                // --- Async 收結果一定不會在 send 的後面 ---
                 xmlHttp.send();
             }
             else { alert("無法執行Ajax呼叫!"); }
@@ -47,9 +58,10 @@
         function postGreetSync() {
             //alert("getGreetAsync");
             var xmlHttp = new XMLHttpRequest();
-            if (xmlHttp != null) {
-                //var p = encodeURI("Name=李大華");
-                xmlHttp.open("Post", "https://localhost:7010/Ajax/Greet", true);
+            if (xmlHttp != null) { 
+                //var p = encodeURI("Name=李大華"); // 不需做編碼
+                // 拿掉 ? post 方式參數不在這裡傳, post 方式不會在網址上看到資訊
+                xmlHttp.open("Post", "https://localhost:7156/Ajax/Greet ", true);
                 xmlHttp.onreadystatechange = function () {  //Ready狀態改變時
                     if (xmlHttp.readyState == 4) {      //4是Ready狀態成功
                         if (xmlHttp.status == 200) {    //400以下均是成功
@@ -59,8 +71,12 @@
                     }
                 }
                 // ==========
-                xmlHttp.setRequestHeader("content-type","application/x-www-form-urlencoded")
+                //dataType = Server -> 送什麼資料形態 -> Client
+                //contentType = Client -> 送什麼資料形態 -> Server
+                // application/ 後面最常見的方式是接 JSON, form 是 body 的內容
+                xmlHttp.setRequestHeader("content-type", "application/x-www-form-urlencoded")
                 document.getElementById("progress").style.display = "inline";
+                // post 參數在這裡傳送
                 xmlHttp.send("Name=郭大華");
             }
             else { alert("無法執行Ajax呼叫!"); }

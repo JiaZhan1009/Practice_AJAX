@@ -5,22 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the DI container.
 string NorthwindConnectionString = builder.Configuration.GetConnectionString("Northwind");
-builder.Services.AddDbContext<NorthwindContext>(options =>
-    options.UseSqlServer(NorthwindConnectionString)
-);
+builder.Services.AddDbContext<NorthwindContext>(options => options.UseSqlServer(NorthwindConnectionString));
 
 builder.Services.AddControllers();
-var MyAllowOrigins = "AllowAny";
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(
-        name: MyAllowOrigins,
-        policy => policy.WithOrigins("*").WithHeaders("*").WithMethods("*"));
-});
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-//builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -31,7 +21,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

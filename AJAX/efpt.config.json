@@ -19,7 +19,8 @@
          "ObjectType": 0
       }
    ],
-   "UiHint": "(localdb)\\ProjectModels.Northwind",
+   "UiHint": "DESKTOP-4I67L02.Northwind",
+   "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
    "UseDbContextSplitting": false,
@@ -29,9 +30,7 @@
    "UseInflector": false,
    "UseLegacyPluralizer": false,
    "UseManyToManyEntity": false,
-   "UseNoConstructor": false,
    "UseNoDefaultConstructor": false,
-   "UseNoNavigations": false,
    "UseNoObjectFilter": false,
    "UseNodaTime": false,
    "UseNullableReferences": false,

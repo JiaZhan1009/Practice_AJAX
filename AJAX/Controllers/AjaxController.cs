@@ -1,41 +1,41 @@
 ﻿using AJAX.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace AJAX.Controllers
 {
     public class AjaxController : Controller
     {
+        //相依性注入
         private readonly NorthwindContext _context;
         public AjaxController(NorthwindContext context)
         {
             _context = context;
         }
-        [HttpGet()]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public string Greet(string Name)
         {
             Thread.Sleep(2000);
             return $"Hello, {Name}!";
         }
-        [HttpPost(), ActionName("Greet")]
+
+        // 這個方法也想叫 Greet, 但是上面有一個同名方法, 所以取名叫PostGreet, 在給 ActionName = Greet
+        [HttpPost, ActionName("Greet")]
         public string PostGreet(string Name)
         {
-            Thread.Sleep(2000);
             return $"Hello, {Name}!";
         }
+
         [HttpPost]
         public string CheckName(string CompanyName)
         {
-            bool Exists = _context.Customers.Any(c => c.CompanyName == CompanyName);
+            bool Exists = _context.Customers.Any(e => e.CompanyName == CompanyName);
             return Exists ? "true" : "false";
-        }
-
-        //public JsonResult Test()
-        //{
-        //    return Json(變數)
-        //}
-        public IActionResult Index()
-        {
-            return View();
         }
     }
 }
