@@ -1,0 +1,86 @@
+﻿@section Styles{
+    <style>
+
+    </style>
+}
+
+    <div id="appVue" class="container">
+        <div class="container">
+            <button type="button" class="btn btn-success" @@click="">新增員工記錄</button>
+            <div class=row>
+                <div class="col-12 mt-4">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <td>員工編號</td>
+                                <td>名</td>
+                                <td>姓</td>
+                                <td>職銜</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in EmpDTO">
+                                <template v-if="item.Edit==true">
+                                    <td>{{item.employeeId}}</td>
+                                    <td><input v-model="item.firstName" /></td>
+                                    <td><input v-model="item.lastName" /></td>
+                                    <td><input v-model="item.title" /></td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" @@click="update(item)">修改</button>
+                                        <button type="button" class="btn btn-warning" @@click="cancel(item)">取消</button>
+                                    </td>
+                                </template>
+
+                                <template v-else>
+                                    <td>{{item.employeeId}}</td>
+                                    <td>{{item.firstName}}</td>
+                                    <td>{{item.lastName}}</td>
+                                    <td>{{item.title}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-success" @@click="edit(item.employeeId)">編輯</button>
+                                        <button type="button" class="btn btn-danger" @@click="deleteEmployee(item.employeeId)">刪除</button>
+                                    </td>
+                                </template>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+
+    <script>
+        var webApiBaseAddress = "https://localhost:7212";
+        var appVue = new Vue({
+            el: "#appVue",
+            name: "appVue",
+            data: {
+                EmpDTO: [],
+                Filter: "",
+            },
+            mounted: function () {
+                let _this = this;
+                _this.getEmployees();
+            },
+            methods: {
+                getEmployees: function () {
+                    let _this = this;
+                    axios.get(`${webApiBaseAddress}/api/employees`).then(
+                        response => {
+                            _this.EmpDTO = response.data;
+                            console.log(EmpDTO);
+                        }
+                    )
+                }
+            }
+
+
+        })
+    </script>
+}

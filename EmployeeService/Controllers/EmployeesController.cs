@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EmployeeService.Models;
 using EmployeeService.DTO;
+using Microsoft.AspNetCore.Cors;
 
 namespace EmployeeService.Controllers
 {
+    [EnableCors("MyAllowOrigins")]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeesController : ControllerBase
@@ -98,6 +100,22 @@ namespace EmployeeService.Controllers
             return "修改成功!";
         }
 
+        [HttpPost("Filter")]  //uri: api/employees/Filter
+        public async Task<IEnumerable<EmployeeDTO>> FilterEmployee([FromBody]EmployeeDTO EmpDTO)
+        {
+            return _context.Employees.Where(emp => emp.FirstName.Contains(EmpDTO.FirstName)).Select(
+                    emp => new EmployeeDTO
+                    {
+                        EmployeeId = emp.EmployeeId,
+                        FirstName = emp.FirstName,
+                        LastName = emp.LastName,
+                        Title = emp.Title
+                    }
+                );
+        }
+
+
+
         // POST: api/Employees // 新增
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -122,7 +140,7 @@ namespace EmployeeService.Controllers
             var employees = await _context.Employees.FindAsync(id);
             if (employees == null)
             {
-                return "找不到ID "+ id + " 的記錄!";
+                return "找不到ID " + id + " 的記錄!";
             }
 
             // 移除找到的記錄

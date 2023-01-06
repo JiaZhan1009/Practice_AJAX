@@ -42,6 +42,10 @@ namespace AJAX.Controllers
         {
             return View();
         }
+        public IActionResult VUECRUD()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
